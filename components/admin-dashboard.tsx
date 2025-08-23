@@ -143,7 +143,10 @@ export function AdminDashboard() {
               <CardDescription className="text-muted-foreground">Manage your loyalty program</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button className="w-full justify-start bg-primary hover:bg-primary/90">
+              <Button 
+                className="w-full justify-start bg-primary hover:bg-primary/90"
+                onClick={() => (window.location.href = "/admin/rewards")}
+              >
                 <Settings className="h-4 w-4 mr-2" />
                 Configure Rewards
               </Button>
@@ -155,7 +158,11 @@ export function AdminDashboard() {
                 <Users className="h-4 w-4 mr-2" />
                 Manage Customers
               </Button>
-              <Button variant="outline" className="w-full justify-start border-border hover:bg-accent bg-transparent">
+              <Button 
+                variant="outline" 
+                className="w-full justify-start border-border hover:bg-accent bg-transparent"
+                onClick={() => (window.location.href = "/admin/analytics")}
+              >
                 <TrendingUp className="h-4 w-4 mr-2" />
                 View Analytics
               </Button>
