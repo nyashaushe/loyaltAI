@@ -24,6 +24,19 @@ export default function SignupPage() {
 		setError("")
 		setSubmitting(true)
 		try {
+			// Basic validation
+			if (!email || !password || !name || !confirmPassword) {
+				setError("All fields are required")
+				setSubmitting(false)
+				return
+			}
+			
+			if (password.length < 6) {
+				setError("Password must be at least 6 characters long")
+				setSubmitting(false)
+				return
+			}
+			
 			if (password !== confirmPassword) {
 				setError("Passwords do not match")
 				setSubmitting(false)
@@ -40,9 +53,14 @@ export default function SignupPage() {
 			} else {
 				// Auto-login
 				const ok = await login(email, password)
-				if (ok) router.push("/dashboard")
+				if (ok) {
+					router.push("/dashboard")
+				} else {
+					setError("Account created but login failed. Please try logging in manually.")
+				}
 			}
-		} catch {
+		} catch (error) {
+			console.error("Signup error:", error)
 			setError("Server error")
 		} finally {
 			setSubmitting(false)

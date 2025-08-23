@@ -33,11 +33,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ ok: false, error: "Email already in use" }, { status: 409 })
     }
 
-    const tenant = await prisma.tenant.upsert({
+    // Find or create tenant
+    let tenant = await prisma.tenant.findUnique({
       where: { slug: tenantSlug },
-      update: {},
-      create: { slug: tenantSlug, name: tenantSlug },
     })
+    
+    if (!tenant) {
+      tenant = await prisma.tenant.create({
+        data: { slug: tenantSlug, name: tenantSlug },
+      })
+    }
 
     const passwordHash = await bcrypt.hash(password, 10)
     const user = await prisma.user.create({
@@ -47,6 +52,7 @@ export async function POST(request: Request) {
     const token = signAuthToken({ userId: user.id, email: user.email, role: "customer", tenantId: user.tenantId })
     return NextResponse.json({ ok: true, token, user: { id: user.id, email: user.email, name: user.name, role: user.role, tenantId: user.tenantId, picture: user.picture } })
   } catch (e) {
+    console.error("Signup API error:", e)
     return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 })
   }
 }
