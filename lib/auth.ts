@@ -8,7 +8,7 @@ export interface AuthTokenPayload {
 }
 
 const getSecret = () => {
-  const secret = process.env.AUTH_SECRET
+  const secret = process.env.AUTH_SECRET || (process.env.NODE_ENV !== "production" ? "dev-secret-change-me" : undefined)
   if (!secret) throw new Error("AUTH_SECRET is not set")
   return secret
 }
