@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useAuth } from "@/components/auth-provider"
+import { AdminNavigation } from "@/components/admin-navigation"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -65,7 +66,9 @@ export default function AdminCustomersPage() {
   )
 
   return (
-    <div className="p-6 grid gap-6">
+    <div>
+      <AdminNavigation />
+      <div className="p-6 grid gap-6">
       <Card>
         <CardHeader>
           <CardTitle>Customers</CardTitle>
@@ -114,6 +117,7 @@ export default function AdminCustomersPage() {
           </CardContent>
         </Card>
       )}
+    </div>
     </div>
   )
 }
